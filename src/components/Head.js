@@ -2,10 +2,14 @@ import React, { useEffect, useState } from 'react'
 import { Auto_suggest, Hamburger_icon, User_icon, Youtube_icon } from '../utils/constants'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleMenu } from '../utils/appSlice';
+import { cacheSearch } from '../utils/searchSlice';
 
 const Head = () => {
  
   const dispatch = useDispatch();
+
+  const searchCache = useSelector((store)=>store.search);
+  console.log(searchCache)
 
   const [searchItems,setSearchItems] = useState("");
   const [suggestions,setSuggestions] = useState([]);
@@ -16,7 +20,16 @@ const Head = () => {
   }
 
   useEffect(()=>{
-   const timer = setTimeout(()=>handleSearch(),200) 
+   const timer = setTimeout(()=> {
+    
+    if(searchCache[searchItems]){
+      setSuggestions(searchCache[searchItems]);
+    }
+    else {
+      handleSearch()
+    }
+
+  },200) 
    return ()=> {
       clearInterval(timer);
    }
@@ -27,6 +40,9 @@ const Head = () => {
     const data = await fetch(Auto_suggest + searchItems);
     const json = await data.json();
     setSuggestions(json[1]);
+    dispatch(cacheSearch({
+      [searchItems] : json[1]
+    }))
   }
 
   return (
