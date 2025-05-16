@@ -14,7 +14,6 @@ const Head = () => {
   const [searchItems,setSearchItems] = useState("");
   const [suggestions,setSuggestions] = useState([]);
   const [showSuggesions,setShowSuggestions] = useState(false);
-  const [searchResults,setSearchResults] = useState([]);
 
   const handleHamburger = () =>{
     dispatch(toggleMenu())
@@ -45,7 +44,7 @@ const Head = () => {
 
   // Navigate to /search with query as URL param
   navigate(`/search?q=${encodeURIComponent(suggestion)}`);
-}
+  }
 
 
   async function handleSearchSuggest(){

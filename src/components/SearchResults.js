@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Api_key } from '../utils/constants';
 
 const YOUTUBE_API = "https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&q=";
@@ -15,6 +15,7 @@ const SearchResults = () => {
   const navigate = useNavigate();
 
   function handleNavigate(videoId){
+
     navigate(`/watch?v=${videoId}`);
   }
 
@@ -33,7 +34,7 @@ const SearchResults = () => {
     <div className="p-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {videos.map(video => (
-          <div key={video.id.videoId || video.etag} className="border p-2 rounded shadow" onClick={()=>handleNavigate(video.id.videoId)}>
+          <div key={video.id.videoId || video.etag} className="border p-2 rounded shadow cursor-pointer" onClick={()=>handleNavigate(video.id.videoId)}>
             <img src={video.snippet.thumbnails.medium.url} alt="thumbnail" className="w-full" />
             <p className="mt-2 font-medium">{video.snippet.title}</p>
             
